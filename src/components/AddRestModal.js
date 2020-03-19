@@ -3,13 +3,32 @@ import {Modal,Button,Row,Form,Col} from 'react-bootstrap';
 
 export class AddRestModal extends Component{
 
-    constructor(props){
-        super(props);
-    }
 
     handleSubmit(event){
         event.preventDefault();
-        alert(event.target.RestaurantName.value);
+        fetch('https://localhost:44395/api/Restaurants',{
+            method:'POST',
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                RestaurantID:null,
+                RestaurantName:event.target.RestaurantName.value,
+                RestaurantAdress:event.target.RestaurantAdress.value
+            })
+
+        })
+        .then(res=> res.json())
+        .then((result)=>
+        {
+            alert(result);
+        },
+        (error)=>{
+            alert('Failed')
+        }
+        )
+        //alert(event.target.RestaurantName.value);
     }
 
     render(){
@@ -26,9 +45,14 @@ export class AddRestModal extends Component{
                                 <Col sm={6}>
                                     <Form onSubmit={this.handleSubmit}>
                                         <Form.Group controlId="RestaurantName">
-                                            <Form.Label>RestaurantName</Form.Label>
+                                            <Form.Label>Restaurant Name</Form.Label>
                                             <Form.Control type="text" name="RestaurantName" required
-                                            placeholder="RestaurantName"/>
+                                            placeholder="Restaurant Name"/>
+                                        </Form.Group>
+                                        <Form.Group controlId="RestaurantAdress">
+                                            <Form.Label>Restaurant Adress</Form.Label>
+                                            <Form.Control type="text" name="RestaurantAdress" required
+                                            placeholder="Restaurant Adress"/>
                                         </Form.Group>
                                         <Form.Group>
                                             <Button variant="primary" type="submit">

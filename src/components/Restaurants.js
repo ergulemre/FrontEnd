@@ -12,7 +12,7 @@ export class Restaurants extends Component{
 
     constructor(props){
         super(props);
-        this.state={deps:[],addModalShow:false}
+        this.state={rest:[],addModalShow:false}
     }
 
     componentDidMount(){
@@ -23,13 +23,16 @@ export class Restaurants extends Component{
         fetch('https://localhost:44395/api/Restaurants')
         .then(response => response.json())
         .then(data => {
-            this.setState({deps:data})
+            this.setState({rest:data})
         })
+    }
+    componentDidUpdate(){
+        this.refreshList();
     }
 
     render(){
 
-        const {deps} = this.state;
+        const {rest} = this.state;
         let addModalClose =() => this.setState({addModalShow:false})
         return(
             <div>
@@ -45,11 +48,11 @@ export class Restaurants extends Component{
                     </tr>
                 </thead>
                 <tbody>
-                    {deps.map(dep=>
-                        <tr key = {dep.RestaurantID}>
-                        <td>{dep.RestaurantID}</td>
-                        <td>{dep.RestaurantName}</td>
-                        <td>{dep.RestaurantAdress}</td>
+                    {rest.map(res=>
+                        <tr key = {res.RestaurantID}>
+                        <td>{res.RestaurantID}</td>
+                        <td>{res.RestaurantName}</td>
+                        <td>{res.RestaurantAdress}</td>
                         </tr>
                     )}
                 </tbody>
